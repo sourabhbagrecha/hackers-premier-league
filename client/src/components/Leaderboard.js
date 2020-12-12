@@ -14,6 +14,7 @@ import {
 import { TeamsContext } from '../contexts/team.context';
 import PaginationActions from './PaginationActions';
 import EnhancedTableHead from './EnhancedTableHead'
+import server from '../api/server';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -70,8 +71,8 @@ function Leaderboard() {
   }, [rowsPerPage, page, order, orderBy, searchQuery, refresh])
 
   const loadTeams = async () => {
-    const { data } = await Axios.get(
-      `http://localhost:4000/api/teams`,
+    const { data } = await server.get(
+      `/api/teams`,
       {
         params: {
           offset: page * rowsPerPage,

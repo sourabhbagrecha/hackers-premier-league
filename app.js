@@ -7,6 +7,7 @@ const app = express()
 const cors = require("cors")
 
 const PORT = process.env.PORT || 4000
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/hpl-coda"
 
 // const Team = require("./models/team")
 const { getTeams, pairTeams, addTeam, getTeamsMeta } = require("./controllers/team")
@@ -24,7 +25,7 @@ app.get('*', (req,res)=>{
     res.sendFile(path.resolve(__dirname, "client","build","index.html"));
 })
 
-mongoose.connect("mongodb+srv://nodeapp:node1234@cluster0.yfuws.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("MongoDB connected!")
     app.listen(PORT, () => console.log(`Running on: ${PORT}`))

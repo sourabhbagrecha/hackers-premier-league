@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, MenuItem, Modal, Select, Typography } from '@material-ui/core'
 import Axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
+import server from '../api/server'
 import { TeamsContext } from '../contexts/team.context'
 
 const useStyles = makeStyles(theme => ({
@@ -34,14 +35,16 @@ export default function PairTeams() {
   }, [])
 
   const loadTeams = async () => {
-    const { data } = await Axios.get("http://localhost:4000/api/teams-meta")
-    setTeams(data.teams)
-    setTeam1(data.teams[0]._id)
-    setTeam2(data.teams[data.teams.length - 1]._id)
+    const { data } = await server.get("/api/teams-meta")
+    if(data.teams && data.teams.length>0){
+      setTeams(data.teams)
+      setTeam1(data.teams[0]._id)
+      setTeam2(data.teams[data.teams.length - 1]._id)
+    }
   }
   
   const pair = async (decision) => {
-    const { data } = await Axios.post("http://localhost:4000/api/pair", {team1, team2, decision})
+    const { data } = await server.post("/api/pair", {team1, team2, decision})
     console.log({data})
     toggleRefresh()
     setOpen(false)

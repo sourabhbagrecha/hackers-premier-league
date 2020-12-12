@@ -1,6 +1,7 @@
 import { Button, makeStyles, TextField } from '@material-ui/core'
 import Axios from 'axios'
 import React, { useContext, useState } from 'react'
+import server from '../api/server';
 import { TeamsContext } from '../contexts/team.context';
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +27,7 @@ export default function AddTeam() {
       return
     }
     setLoading(true)
-    const { data } = await Axios.post("http://localhost:4000/api/team/new", { name })
+    const { data } = await server.post("/api/team/new", { name })
     console.log({ data })
     setName("")
     setLoading(false)
